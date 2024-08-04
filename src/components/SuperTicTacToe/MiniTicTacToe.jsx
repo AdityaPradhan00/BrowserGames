@@ -36,20 +36,32 @@ const winningCombinations = [
 
 
 
-function MiniTicTacToe({playerTurn, setPlayerTurn, tiles, setGameState, onMiniGameWin, gameState, setLastMiniTile }) {
+function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlayerTurn, tiles, setLastMiniTile, lastMiniTile, setGameState, onMiniGameWin, gameState }) {
   const [miniTiles, setMiniTiles] = useState(Array(9).fill(null));
   const [strikeClass, setStrikeClass] = useState();
   const [subGameState, setSubGameState] = useState(GameState.inProgress)
 
   useEffect(() => {
+    if (resetTrigger) {
+      setMiniTiles(Array(9).fill(null));
+    }
+  }, [resetTrigger])
+  
+  
+  useEffect(() => {
     checkWinner(miniTiles, setStrikeClass, setGameState, tiles, onMiniGameWin);
   }, [miniTiles]);
 
   // useEffect(() => {
-  //   if (tiles.some((tile) => tile !== null)){
-  //     clickSound.play();
-  //   }
-  // }, [tiles]); 
+  //    if (miniTiles.some((tile) => tile !== null)){
+  //      clickSound.play();
+  //    }
+  //  }, [miniTiles]); 
+  // useEffect(() => {
+  //   if (gameState !== GameState.inProgress){
+  //       gameOverSound.play();
+  //     }
+  //   }, [gameState]);
   function checkWinner() {
     for (const { combo, strikeClass } of winningCombinations) {
       const tileValue1 = miniTiles[combo[0]];
@@ -61,10 +73,10 @@ function MiniTicTacToe({playerTurn, setPlayerTurn, tiles, setGameState, onMiniGa
         
         if (tileValue1 === PLAYER_X) {
           setSubGameState(GameState.playerXWins);          
-          onMiniGameWin(PLAYER_X);  // Notify the parent about the win
+          onMiniGameWin(PLAYER_X);
         } else {
           setSubGameState(GameState.playerOWins);
-          onMiniGameWin(PLAYER_O);  // Notify the parent about the win
+          onMiniGameWin(PLAYER_O);
         }
         return;
       }
@@ -73,37 +85,58 @@ function MiniTicTacToe({playerTurn, setPlayerTurn, tiles, setGameState, onMiniGa
     const areAllTilesFilledIn = miniTiles.every((miniTile) => miniTile !== null);
     if (areAllTilesFilledIn) {
       setGameState(GameState.draw);
-      onMiniGameWin(null); // Notify the parent about the draw
+      onMiniGameWin(null);
     }
   }
-  
-  
-  useEffect(() => {
-   if (gameState !== GameState.inProgress){
-       gameOverSound.play();
-     }
-   }, [gameState]);
 
-  const handleTileClick = (index) => {
+
+  const handleTileClick = async (index) => {
+
     if (gameState !== GameState.inProgress) return;
-
     if (miniTiles[index] !== null) {
       return;
     }
-    
-    const newTiles = [...miniTiles];
-    newTiles[index] = playerTurn;
-    setLastMiniTile(index)
-    setMiniTiles(newTiles);
-    if (playerTurn === PLAYER_X) {
-      setPlayerTurn(PLAYER_O);
-    } else {
-      setPlayerTurn(PLAYER_X);
+    if (!first) {
+      setFirst(true);
+      Move();
+      return;
     }
+    const hasX = tiles.includes('X');
+    const hasO = tiles.includes('O');
+    if (hasX || hasO) {
+      const completedMiniGameIndices = tiles
+      .map((tile, idx) => (tile === 'X' || tile === 'O') ? idx : null)
+      .filter(index => index !== null);
+      console.log('Indices of completed mini-games:', completedMiniGameIndices, completedMiniGameIndices[lastMiniTile]);
+      completedMiniGameIndices.forEach((completed) => {
+        console.log("completed", completed);
+        if (completed === lastMiniTile) {Move()}
+      }); 
+    }
+    if (ind !== lastMiniTile){
+      return;
+    }
+    
+    function Move () {
+      const newTiles = [...miniTiles];
+      newTiles[index] = playerTurn;
+      setLastMiniTile(index)    
+      setMiniTiles(newTiles);
+      if (playerTurn === PLAYER_X) {
+        setPlayerTurn(PLAYER_O);
+      } else {
+        setPlayerTurn(PLAYER_X);
+      }
   }
+  Move()     
 
-  return (
-        <MiniBoard miniTiles={miniTiles} strikeClass={strikeClass} playerTurn={playerTurn} onTileClick={handleTileClick} />
+}
+
+
+  return (<>
+  
+  <MiniBoard miniTiles={miniTiles} strikeClass={strikeClass} playerTurn={playerTurn} onTileClick={handleTileClick} />
+  </>
   )
 }
 

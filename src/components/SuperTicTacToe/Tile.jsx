@@ -1,16 +1,17 @@
 import React from 'react'
 import MiniTicTacToe from './MiniTicTacToe';
 
-function Tile({ className, gameState, nullMove, setGameState, setLastMiniTile, setTiles, value, onClick, playerTurn, onMiniGameWin, setPlayerTurn, tiles }) {
+function Tile({ ind, className, first, resetTrigger, setFirst, lastMiniTile, gameState, setGameState, setLastMiniTile, setTiles, value, onClick, playerTurn, onMiniGameWin, setPlayerTurn, tiles }) {
 
   let hoverClass = null;
 
  
   return (
     <>
-    <div onClick={onClick} className={`tile ${className} ${hoverClass} ${nullMove}`}>
+    <div onClick={onClick} className={`tile ${className} ${hoverClass}`}>
     {value === null ? (
         <MiniTicTacToe 
+          ind={ind}
           setPlayerTurn={setPlayerTurn} 
           playerTurn={playerTurn} 
           onMiniGameWin={onMiniGameWin} 
@@ -19,6 +20,11 @@ function Tile({ className, gameState, nullMove, setGameState, setLastMiniTile, s
           setGameState={setGameState}
           gameState={gameState}
           setLastMiniTile={setLastMiniTile}
+          lastMiniTile={lastMiniTile}
+          value={value}
+          first={first} 
+          setFirst={setFirst}
+          resetTrigger={resetTrigger}
         />
       ) : (
         value

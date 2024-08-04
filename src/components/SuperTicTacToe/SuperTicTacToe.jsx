@@ -27,7 +27,6 @@ const winningCombinations = [
 
 
 function checkWinner(tiles, setStrikeClass, setGameState) {
-  console.log('cjecl')
   for (const { combo, strikeClass } of winningCombinations){
     const tileValue1 = tiles[combo[0]];
     const tileValue2 = tiles[combo[1]];
@@ -41,7 +40,6 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
         
       } else {
         console.log("0")
-
         setGameState(GameState.playerOWins);
       }
       return;
@@ -61,9 +59,9 @@ function SuperTicTacToe() {
   const [strikeClass, setStrikeClass] = useState();
   const [gameState, setGameState] = useState(GameState.inProgress);
   const [lastMiniTile, setLastMiniTile] = useState();
-  const [nullMove, setNullMove] = useState('');
+  const [first, setFirst] = useState(false);
+  const [resetTrigger, setResetTrigger] = useState(false);
 
-  
   const handleMiniGameWin = (miniIndex, winner) => {
     if (tiles[miniIndex] !== null || gameState !== GameState.inProgress) return;
     const newTiles = [...tiles];
@@ -74,15 +72,21 @@ function SuperTicTacToe() {
   
   
 
-  const handleReset = () => {
+  const handleReset = async () => {
     setGameState(GameState.inProgress);
     setTiles(Array(9).fill(null));
     setStrikeClass(null);
+    await  setResetTrigger(true);
+    setFirst(false);    
+    setResetTrigger(false);
+
   }
+
 
   return (
     <div>
-      <SuperBoard nullMove={nullMove} setLastMiniTile={setLastMiniTile} gameState={gameState} setGameState={setGameState} strikeClass={strikeClass} onMiniGameWin={handleMiniGameWin} tiles={tiles} setTiles={setTiles} setPlayerTurn={setPlayerTurn} playerTurn={playerTurn} />
+      <h1>Super TicTacToe</h1>
+      <SuperBoard resetTrigger={resetTrigger} first={first} setFirst={setFirst} lastMiniTile={lastMiniTile} setLastMiniTile={setLastMiniTile} gameState={gameState} setGameState={setGameState} strikeClass={strikeClass} onMiniGameWin={handleMiniGameWin} tiles={tiles} setTiles={setTiles} setPlayerTurn={setPlayerTurn} playerTurn={playerTurn} />
       <GameOver gameState={gameState} />
       <Reset gameState={gameState} onReset={handleReset} />  
     </div>

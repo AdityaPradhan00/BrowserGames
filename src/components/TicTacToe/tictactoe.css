@@ -20,18 +20,18 @@ h1 {
 
 .tile {
   color: currentColor;
-  font-size: 2em;
+  font-size: 3em;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .right-border {
-  border-right: 0.2em solid #0074a6;
+  border-right: 0.1em solid #0074a6;
 }
 
 .bottom-border {
-  border-bottom: 0.2em solid #0074a6;
+  border-bottom: 0.1em solid #0074a6;
 }
 
 .x-hover:hover::after {
@@ -106,6 +106,22 @@ h1 {
 
 .reset-button {
   margin-top: 50px;
+  padding: 20px;
+  background-color: #0074a6;
+  color: white;
+  width: 100%;
+  font-size: 1.5em;
+}
+
+.game-btn-div {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.game-btn {
   padding: 20px;
   background-color: #0074a6;
   color: white;
