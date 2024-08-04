@@ -1,21 +1,11 @@
-import React,{ useState, useEffect } from 'react'
-import Board from './Board';
-import GameOver from './GameOver';
+import React, { useEffect, useState } from 'react'
+import SuperBoard from './SuperBoard';
+import './supertictactoe.css';
 import GameState from './GameState';
+import GameOver from './GameOver';
 import Reset from './Reset';
-import gameOverSoundAsset from '../../sounds/gameOver.wav';
-import clickSoundAsset from '../../sounds/click.wav';
-import './tictactoe.css';
-
-
-const gameOverSound = new Audio(gameOverSoundAsset);
-gameOverSound.volume = 0.2;
-const clickSound = new Audio(clickSoundAsset);
-clickSound.volume = 0.5;
 
 const PLAYER_X = 'X';
-const PLAYER_O = 'O';
-
 
 const winningCombinations = [
 
@@ -37,6 +27,7 @@ const winningCombinations = [
 
 
 function checkWinner(tiles, setStrikeClass, setGameState) {
+  console.log('cjecl')
   for (const { combo, strikeClass } of winningCombinations){
     const tileValue1 = tiles[combo[0]];
     const tileValue2 = tiles[combo[1]];
@@ -45,8 +36,12 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
     if ( tileValue1 !== null && tileValue1 === tileValue2 && tileValue1 === tileValue3) {
       setStrikeClass(strikeClass);
       if (tileValue1 === PLAYER_X) {
+        console.log("X")
         setGameState(GameState.playerXWins);
+        
       } else {
+        console.log("0")
+
         setGameState(GameState.playerOWins);
       }
       return;
@@ -55,53 +50,31 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
 
   const areAllTilesFilledIn = tiles.every((tile) => tile != null);
   if (areAllTilesFilledIn) {
+    console.log("Draw")
+
     setGameState(GameState.draw);
   }
 }
-
-
-function TicTacToe() {
-
-  const [tiles, setTiles] = useState(Array(9).fill(null));
+function SuperTicTacToe() {
   const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
+  const [tiles, setTiles] = useState(Array(9).fill(null));
   const [strikeClass, setStrikeClass] = useState();
   const [gameState, setGameState] = useState(GameState.inProgress);
+  const [lastMiniTile, setLastMiniTile] = useState();
+  const [nullMove, setNullMove] = useState('');
 
-  useEffect(() => {
-    checkWinner(tiles, setStrikeClass, setGameState);
-  }, [tiles]);
-
-  useEffect(() => {
-    if (tiles.some((tile) => tile !== null)){
-      clickSound.play();
-    }
-  }, [tiles]); 
   
-  useEffect(() => {
-    if (gameState !== GameState.inProgress){
-      gameOverSound.play();
-    }
-  }, [gameState]);
-
-  const handleTileClick = (index) => {
-    if (gameState !== GameState.inProgress) return;
-
-    if (tiles[index] !== null) {
-      return;
-    }
-    
+  const handleMiniGameWin = (miniIndex, winner) => {
+    if (tiles[miniIndex] !== null || gameState !== GameState.inProgress) return;
     const newTiles = [...tiles];
-    newTiles[index] = playerTurn;
+    newTiles[miniIndex] = winner;
     setTiles(newTiles);
-    if (playerTurn === PLAYER_X) {
-      setPlayerTurn(PLAYER_O);
-    } else {
-      setPlayerTurn(PLAYER_X);
-    }
-  }
+    checkWinner(newTiles, setStrikeClass, setGameState);
+  };
+  
+  
 
-
- const handleReset = () => {
+  const handleReset = () => {
     setGameState(GameState.inProgress);
     setTiles(Array(9).fill(null));
     setStrikeClass(null);
@@ -109,13 +82,11 @@ function TicTacToe() {
 
   return (
     <div>
-        <h1>TicTacToe</h1>
-        <Board tiles={tiles} strikeClass={strikeClass} playerTurn={playerTurn} onTileClick={handleTileClick} />
-        <GameOver gameState={gameState} />
-        <Reset gameState={gameState} onReset={handleReset} />
+      <SuperBoard nullMove={nullMove} setLastMiniTile={setLastMiniTile} gameState={gameState} setGameState={setGameState} strikeClass={strikeClass} onMiniGameWin={handleMiniGameWin} tiles={tiles} setTiles={setTiles} setPlayerTurn={setPlayerTurn} playerTurn={playerTurn} />
+      <GameOver gameState={gameState} />
+      <Reset gameState={gameState} onReset={handleReset} />  
     </div>
-
   )
 }
 
-export default TicTacToe;
+export default SuperTicTacToe;

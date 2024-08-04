@@ -1,9 +1,10 @@
-import './App.css';
+
+import SuperTicTacToe from './components/SuperTicTacToe/SuperTicTacToe';
 import TicTacToe from './components/TicTacToe/TicTacToe';
 
 function App() {
   return (
-    <TicTacToe />
+    <SuperTicTacToe />
   );
 }
 
