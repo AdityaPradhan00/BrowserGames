@@ -44,6 +44,7 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
   useEffect(() => {
     if (resetTrigger) {
       setMiniTiles(Array(9).fill(null));
+      setSubGameState(GameState.inProgress); 
     }
   }, [resetTrigger])
   
@@ -89,6 +90,10 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
     }
   }
 
+  const handleTileTouch = (event) => {
+    event.preventDefault(); // Prevent default touch behavior
+    handleTileClick(event.target.dataset.index);
+  };
 
   const handleTileClick = async (index) => {
 
@@ -135,7 +140,7 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
 
   return (<>
   
-  <MiniBoard miniTiles={miniTiles} strikeClass={strikeClass} playerTurn={playerTurn} onTileClick={handleTileClick} />
+  <MiniBoard miniTiles={miniTiles}  onTouchStart={handleTileTouch} strikeClass={strikeClass} playerTurn={playerTurn} onTileClick={handleTileClick} />
   </>
   )
 }
