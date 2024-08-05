@@ -22,7 +22,7 @@
   position: absolute;
 }
 .mini-tile {
-  color: black;
+  color: whitesmoke;
   font-size: 0.5em;
   display: flex;
   justify-content: center;
@@ -32,12 +32,11 @@
 .mini-tile:focus,
 .mini-tile:active {
   outline: none; /* Remove focus outline */
-  background-color: #f0f0f0; /* Optional: Add custom focus background */
 }
 .mini-right-border {
-  border-right: 0.1em solid black;
+  border-right: 0.1em solid whitesmoke;
 }
 
 .mini-bottom-border {
-  border-bottom: 0.1em solid black;
+  border-bottom: 0.1em solid whitesmoke;
 }
