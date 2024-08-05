@@ -24,13 +24,8 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  outline: none;
 }
-.tile:focus,
-.tile:active {
-  outline: none;
-   /* Remove focus outline */
-}
+
 .right-border {
   border-right: 0.1em solid #0074a6;
 }

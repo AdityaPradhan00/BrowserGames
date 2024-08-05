@@ -40,3 +40,9 @@
 .mini-bottom-border {
   border-bottom: 0.1em solid whitesmoke;
 }
+@media (hover: none) {
+  .x-hovermini:hover::after, 
+  .o-hovermini:hover::after {
+    content: none;
+  }
+}
