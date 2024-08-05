@@ -103,16 +103,17 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
     }
     const hasX = tiles.includes('X');
     const hasO = tiles.includes('O');
-    if (hasX || hasO) {
+    const hasDraw = tiles.includes('Draw');
+    if (hasX || hasO || hasDraw) {
       const completedMiniGameIndices = tiles
-      .map((tile, idx) => (tile === 'X' || tile === 'O') ? idx : null)
+      .map((tile, idx) => (tile === 'X' || tile === 'O' || tile === 'Draw') ? idx : null)
       .filter(index => index !== null);
       completedMiniGameIndices.forEach((completed) => {
         if (completed === lastMiniTile) {Move()}
       }); 
     }
     if (ind !== lastMiniTile){
-      return;
+       return;
     }
     
     function Move () {
