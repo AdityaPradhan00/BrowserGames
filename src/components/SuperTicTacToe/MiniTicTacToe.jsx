@@ -84,8 +84,8 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
   
     const areAllTilesFilledIn = miniTiles.every((miniTile) => miniTile !== null);
     if (areAllTilesFilledIn) {
-      setGameState(GameState.draw);
-      onMiniGameWin(null);
+      setSubGameState(GameState.draw);
+      onMiniGameWin('Draw');
     }
   }
 
@@ -114,7 +114,7 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
       }); 
     }
     if (ind !== lastMiniTile){
-      return;
+       return;
     }
     
     function Move () {
