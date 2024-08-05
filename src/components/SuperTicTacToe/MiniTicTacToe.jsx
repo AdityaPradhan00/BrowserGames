@@ -107,14 +107,12 @@ function MiniTicTacToe({playerTurn, first, resetTrigger, setFirst, ind, setPlaye
       const completedMiniGameIndices = tiles
       .map((tile, idx) => (tile === 'X' || tile === 'O') ? idx : null)
       .filter(index => index !== null);
-      console.log('Indices of completed mini-games:', completedMiniGameIndices, completedMiniGameIndices[lastMiniTile]);
       completedMiniGameIndices.forEach((completed) => {
-        console.log("completed", completed);
         if (completed === lastMiniTile) {Move()}
       }); 
     }
     if (ind !== lastMiniTile){
-       return;
+      return;
     }
     
     function Move () {

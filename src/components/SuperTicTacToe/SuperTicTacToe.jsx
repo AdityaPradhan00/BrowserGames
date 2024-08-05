@@ -6,6 +6,7 @@ import GameOver from './GameOver';
 import Reset from './Reset';
 
 const PLAYER_X = 'X';
+const PLAYER_O = 'O';
 
 const winningCombinations = [
 
@@ -33,14 +34,20 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
     const tileValue3 = tiles[combo[2]];
    
     if ( tileValue1 !== null && tileValue1 === tileValue2 && tileValue1 === tileValue3) {
-      setStrikeClass(strikeClass);
-      if (tileValue1 === PLAYER_X) {
+      if (tileValue1 === "Draw") {
+        console.log("Draw")
+        setGameState(GameState.draw);
+        setStrikeClass(strikeClass);
+        
+      } else if (tileValue1 === PLAYER_X) {
         console.log("X")
         setGameState(GameState.playerXWins);
+        setStrikeClass(strikeClass);
         
-      } else {
+      } else if(tileValue1 === PLAYER_O){
         console.log("0")
         setGameState(GameState.playerOWins);
+        setStrikeClass(strikeClass);
       }
       return;
     }
