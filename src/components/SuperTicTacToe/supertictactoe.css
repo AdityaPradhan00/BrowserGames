@@ -27,8 +27,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: none;
 }
-
+.mini-tile:focus,
+.mini-tile:active {
+  outline: none; /* Remove focus outline */
+  background-color: #f0f0f0; /* Optional: Add custom focus background */
+}
 .mini-right-border {
   border-right: 0.1em solid black;
 }
