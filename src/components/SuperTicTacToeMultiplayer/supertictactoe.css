@@ -1,0 +1,48 @@
+.super-board {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 130px 130px 130px;
+  grid-template-rows: 130px 130px 130px;
+  cursor: pointer;
+  position: relative;
+}
+
+.x-hovermini:hover::after {
+  content: 'X';
+}
+.o-hovermini:hover::after {
+  content: 'O';
+}
+ 
+.mini-board {
+  display: grid;
+  grid-template-columns: 25px 25px 25px;
+  grid-template-rows: 25px 25px 25px;
+  cursor: pointer;
+  position: absolute;
+}
+.mini-tile {
+  color: whitesmoke;
+  font-size: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+.mini-tile:focus,
+.mini-tile:active {
+  outline: none; /* Remove focus outline */
+}
+.mini-right-border {
+  border-right: 0.1em solid whitesmoke;
+}
+
+.mini-bottom-border {
+  border-bottom: 0.1em solid whitesmoke;
+}
+@media (hover: none) {
+  .x-hovermini:hover::after, 
+  .o-hovermini:hover::after {
+    content: none;
+  }
+}
