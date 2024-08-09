@@ -17,7 +17,7 @@ function Games({socket, setSocket}) {
           setSocket(null);
       }
   
-      const newSocket = io('http://localhost:5000'); 
+      const newSocket = io('https://browsergamesserver.onrender.com/'); 
       setSocket(newSocket);
       if (currentMode === 'TicTacToe') {
           setOptions1(false);
